@@ -1,12 +1,43 @@
+#####################################################################################
+# run_analysis.R
+# Revision: 0.2
+# Author: Tarek Darwish
+# Date: Jun, 22 2016
+#####################################################################################
+
+
+
+
+#####################################################################################
+# Top level function
+# It calls the merge_data function to merge train and test data
+# Then the function uses summarise function to calculate the mean
+# of each variable for each activity and subject.
 run_analysis <- function() {
+  # Call the merge_data function on current directory
   merged_data <- merge_data("./")
+  # transform data to table data frame
   merged_data <- tbl_df(merged_data)
+  # write merged data to a file
   write.table(merged_data, "merged_data.txt", row.names = FALSE)
+  # create mean data structure for each of the columns in the merge data
   summary_data <- merged_data %>% group_by(subject, activity) %>% summarise_each(funs(mean))
+  # return the summary
   summary_data
-  
-  
 }
+#####################################################################################
+
+
+
+#####################################################################################
+# This is the main finction of the script.
+# Based on the current location of the script, the function
+# defines all the files it needs to read and calls the "collateral_exists"
+# function to make sure all files exist.
+# If all files exist, the function carries on by reading training data
+# and test data. Then the function extracts the variables assocauted with
+# mean and std measurments and merges both extracted data
+# and it returns the merged data
 merge_data <- function (data_pointer) {
   # Given the data_pointer (which is directory pointer)
   # construct the paths to the different files needed by the analysis
@@ -82,9 +113,14 @@ merge_data <- function (data_pointer) {
     merged_data
   }
 }
+#####################################################################################
 
 
 
+#####################################################################################
+# This functin takes a vector of file names and try to find 
+# if all files exist. If all exist, it returns true, if any is 
+# missing it returns false.
 collateral_exists <- function (files) {
   allexists <- TRUE
   for (file in files) {
@@ -96,3 +132,4 @@ collateral_exists <- function (files) {
   }
   allexists
 }
+#####################################################################################
