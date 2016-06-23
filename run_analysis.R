@@ -15,7 +15,7 @@
 # of each variable for each activity and subject.
 run_analysis <- function() {
   # Call the merge_data function on current directory
-  merged_data <- merge_data("./")
+  merged_data <- merge_data("data_set")
   # transform data to table data frame
   merged_data <- tbl_df(merged_data)
   # write merged data to a file
@@ -126,7 +126,7 @@ collateral_exists <- function (files) {
   for (file in files) {
     if (!file.exists(file)) {
       allexists <- FALSE
-      print (paste0 ("Cannot find the following: \"", file, "\" Bye!"))
+      print (paste0 ("Cannot find the following: ", file, " Bye!"))
       break
     }
   }
